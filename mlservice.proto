@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package mlservice;
+
+// ML prediction service
+service ModelService {
+  rpc Predict (PredictRequest) returns (PredictReply);
+}
+
+message PredictRequest {
+  repeated float features = 1; // input features (e.g., 4 for Iris)
+}
+
+message PredictReply {
+  int32 label = 1; // predicted class
+}
