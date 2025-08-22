@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ML Prediction via gRPC</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input { margin: 5px; }
+    button { margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Enter Iris Flower Features</h2>
+  <form id="predict-form">
+    <input type="number" step="0.1" id="f1" placeholder="Sepal length"><br>
+    <input type="number" step="0.1" id="f2" placeholder="Sepal width"><br>
+    <input type="number" step="0.1" id="f3" placeholder="Petal length"><br>
+    <input type="number" step="0.1" id="f4" placeholder="Petal width"><br>
+    <button type="submit">Predict</button>
+  </form>
+
+  <h3 id="result"></h3>
+
+  <script>
+    document.getElementById("predict-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const features = [
+        parseFloat(document.getElementById("f1").value),
+        parseFloat(document.getElementById("f2").value),
+        parseFloat(document.getElementById("f3").value),
+        parseFloat(document.getElementById("f4").value),
+      ];
+
+      const res = await fetch("http://localhost:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ features })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").textContent = "Predicted class: " + data.prediction;
+    });
+  </script>
+</body>
+</html>

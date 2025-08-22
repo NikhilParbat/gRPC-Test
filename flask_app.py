@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify
 import grpc
 import mlservice_pb2
 import mlservice_pb2_grpc
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  
 
-# Connect to gRPC server
 channel = grpc.insecure_channel("localhost:50051")
 stub = mlservice_pb2_grpc.ModelServiceStub(channel)
 
